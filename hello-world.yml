@@ -1,0 +1,27 @@
+resources:
+- name: repo
+  type: git
+  source:
+    uri: https://github.com/k9ert/concourse-tutorial.git
+    # this is to avoid git permission error.
+    git_config:
+    - name: safe.directory
+      value: '*'
+
+jobs:
+  - name: hello-world-job
+    plan:
+    - get: repo
+      trigger: true
+    - task: hello-world-task
+      config:
+        platform: linux
+        image_resource:
+          type: registry-image
+          source:
+            repository: busybox
+        inputs:
+        - name: repo
+        run:
+          path: cat
+          args: ["repo/Readme.md"]
