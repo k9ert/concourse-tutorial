@@ -21,9 +21,10 @@ resources:
     uri: git@github.com:concourse/examples.git
     branch: master
     private_key: ((github_private_key))
+    private_key_passphrase: ((github_private_key_passphrase))
 ```
 
 ```bash
 fly -t tutorial set-pipeline -p my-pipeline -c pipeline.yml \
-  --var github_private_key="$(cat ~/.ssh/id_rsa)"
+  --var github_private_key="$(cat ~/.ssh/id_rsa)" --var github_private_key_passphrase="yourPassphraseHere"
 ```

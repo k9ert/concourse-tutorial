@@ -5,10 +5,11 @@ resources:
     uri: git@github.com:k9ert/concourse-tutorial.git
     branch: master
     private_key: ((github_private_key))
+    private_key_passphrase: ((github_private_key_passphrase))
     # this is to avoid git permission error.
     git_config:
     - name: safe.directory
-      value: '*'
+      value: '**'
 
 jobs:
 - name: hello-world-job
@@ -21,7 +22,7 @@ jobs:
       image_resource:
         type: registry-image
         source:
-          repository: busybox
+          repository: alpine/git
       inputs:
       - name: repo
       outputs:
@@ -30,7 +31,7 @@ jobs:
         EMAIL: k9ert@example.com
         GIT_AUTHOR_NAME: k9ert
       run:
-        path: sh
+        path: /bin/sh
         args: 
         - -cx
         # this is just a bash-script
